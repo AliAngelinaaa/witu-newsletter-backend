@@ -1,26 +1,3 @@
-// package main
-
-// import (
-// 	"github.com/aliangelinaaa/witu-newsletter-backend/controllers"
-// 	"github.com/aliangelinaaa/witu-newsletter-backend/models"
-// 	"github.com/gin-gonic/gin"
-// )
-// func main() {
-	
-// 	router := gin.Default()
-
-// 	models.ConnectDatabase()
-
-// 	router.POST("/posts", controllers.CreatePost)
-// 	router.GET("/posts", controllers.FindPosts)
-// 	router.GET("/posts/:id", controllers.FindPost)
-// 	router.PATCH("/posts/:id", controllers.UpdatePost)
-// 	router.DELETE("/posts/:id", controllers.DeletePost)
-
-// 	router.Run("localhost:8080")
-// }
-
-
 package main
 
 import (
@@ -48,6 +25,16 @@ func main() {
     router.GET("/posts/:id", controllers.FindPost)
     router.PATCH("/posts/:id", controllers.UpdatePost)
     router.DELETE("/posts/:id", controllers.DeletePost)
+
+	router.POST("/emails", controllers.CreateEmail)
+	router.GET("/emails", controllers.FindEmails)
+	router.GET("/emails/:id", controllers.FindEmail)
+	router.PATCH("/emails/:id", controllers.UpdateEmail)
+	router.DELETE("/emails/:id", controllers.DeleteEmail)
+
+	router.POST("/sendingnewsletter", controllers.SendNewsletterEmail)
+
+
 
     router.Run("localhost:8080")
 }
