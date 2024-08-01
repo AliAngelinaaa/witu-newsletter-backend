@@ -1,10 +1,11 @@
 package main
 
 import (
-    "github.com/aliangelinaaa/witu-newsletter-backend/controllers"
-    "github.com/aliangelinaaa/witu-newsletter-backend/models"
-    "github.com/gin-contrib/cors"
-    "github.com/gin-gonic/gin"
+	"github.com/aliangelinaaa/witu-newsletter-backend/auth"
+	"github.com/aliangelinaaa/witu-newsletter-backend/controllers"
+	"github.com/aliangelinaaa/witu-newsletter-backend/models"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -19,6 +20,9 @@ func main() {
     }))
 
     models.ConnectDatabase()
+
+    authRouter := auth.SetupRoutes()
+    router.Any("/auth/*action", gin.WrapH(authRouter))
 
     router.POST("/posts", controllers.CreatePost)
     router.GET("/posts", controllers.FindPosts)
