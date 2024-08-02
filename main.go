@@ -9,26 +9,28 @@ import (
 )
 
 func main() {
-    router := gin.Default()
+	router := gin.Default()
 
-    // Setup CORS
-    router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"http://localhost:5173"}, // Allow only your front-end URL
-        AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
-        AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
-        AllowCredentials: true,
-    }))
+	// Setup CORS
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:5173"}, // Allow only your front-end URL
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
+		AllowCredentials: true,
+	}))
 
-    models.ConnectDatabase()
+	models.ConnectDatabase()
 
-    authRouter := auth.SetupRoutes()
-    router.Any("/auth/*action", gin.WrapH(authRouter))
+	// Setup authentication routes
+	authApp := auth.SetupRoutes()
+	router.Any("/auth/*action", gin.WrapH(authApp))
 
-    router.POST("/posts", controllers.CreatePost)
-    router.GET("/posts", controllers.FindPosts)
-    router.GET("/posts/:id", controllers.FindPost)
-    router.PATCH("/posts/:id", controllers.UpdatePost)
-    router.DELETE("/posts/:id", controllers.DeletePost)
+	// Setup other routes
+	router.POST("/posts", controllers.CreatePost)
+	router.GET("/posts", controllers.FindPosts)
+	router.GET("/posts/:id", controllers.FindPost)
+	router.PATCH("/posts/:id", controllers.UpdatePost)
+	router.DELETE("/posts/:id", controllers.DeletePost)
 
 	router.POST("/emails", controllers.CreateEmail)
 	router.GET("/emails", controllers.FindEmails)
@@ -38,7 +40,5 @@ func main() {
 
 	router.POST("/sendingnewsletter", controllers.SendNewsletterEmail)
 
-
-
-    router.Run("localhost:8080")
+	router.Run("localhost:8080")
 }
