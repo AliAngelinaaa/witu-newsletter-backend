@@ -12,9 +12,9 @@ func main() {
 
     // Setup CORS
     router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"http://localhost:5173"}, // Allow only your front-end URL
+        AllowOrigins:     []string{"http://localhost:5173"},
         AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
-        AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
+        AllowHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
         AllowCredentials: true,
     }))
 
@@ -34,7 +34,7 @@ func main() {
 
 	router.POST("/sendingnewsletter", controllers.SendNewsletterEmail)
 
-
+    router.GET("/auth/google", controllers.GoogleOAuth)
 
     router.Run("localhost:8080")
 }
